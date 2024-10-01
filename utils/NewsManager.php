@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 class NewsManager
 {
 	private static ?self $instance = null;
