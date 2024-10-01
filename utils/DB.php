@@ -2,20 +2,20 @@
 
 class DB
 {
-	private $pdo;
+	private \PDO $pdo;
 
-	private static $instance = null;
+	private static ?self $instance = null;
 
 	private function __construct()
 	{
 		$dsn = 'mysql:dbname=phptest;host=127.0.0.1';
 		$user = 'root';
-		$password = 'pass';
+		$password = '';
 
 		$this->pdo = new \PDO($dsn, $user, $password);
 	}
 
-	public static function getInstance()
+	public static function getInstance(): self
 	{
 		if (null === self::$instance) {
 			$c = __CLASS__;
@@ -24,18 +24,18 @@ class DB
 		return self::$instance;
 	}
 
-	public function select($sql)
+	public function select($sql): array
 	{
 		$sth = $this->pdo->query($sql);
 		return $sth->fetchAll();
 	}
 
-	public function exec($sql)
+	public function exec($sql): int|bool
 	{
 		return $this->pdo->exec($sql);
 	}
 
-	public function lastInsertId()
+	public function lastInsertId(): int
 	{
 		return $this->pdo->lastInsertId();
 	}

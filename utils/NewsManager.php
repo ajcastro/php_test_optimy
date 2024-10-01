@@ -2,7 +2,7 @@
 
 class NewsManager
 {
-	private static $instance = null;
+	private static ?self $instance = null;
 
 	private function __construct()
 	{
@@ -11,7 +11,7 @@ class NewsManager
 		require_once(ROOT . '/class/News.php');
 	}
 
-	public static function getInstance()
+	public static function getInstance(): self
 	{
 		if (null === self::$instance) {
 			$c = __CLASS__;
@@ -23,7 +23,7 @@ class NewsManager
 	/**
 	* list all news
 	*/
-	public function listNews()
+	public function listNews(): array
 	{
 		$db = DB::getInstance();
 		$rows = $db->select('SELECT * FROM `news`');
@@ -43,7 +43,7 @@ class NewsManager
 	/**
 	* add a record in news table
 	*/
-	public function addNews($title, $body)
+	public function addNews($title, $body): int
 	{
 		$db = DB::getInstance();
 		$sql = "INSERT INTO `news` (`title`, `body`, `created_at`) VALUES('". $title . "','" . $body . "','" . date('Y-m-d') . "')";
@@ -55,7 +55,7 @@ class NewsManager
 	/**
 	* deletes a news, and also linked comments
 	*/
-	public function deleteNews($id)
+	public function deleteNews($id): int|bool
 	{
 		$comments = CommentManager::getInstance()->listCommentsByNewsId($id);
 

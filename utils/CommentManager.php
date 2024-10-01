@@ -2,7 +2,7 @@
 
 class CommentManager
 {
-	private static $instance = null;
+	private static ?self $instance = null;
 
 	private function __construct()
 	{
@@ -10,7 +10,7 @@ class CommentManager
 		require_once(ROOT . '/class/Comment.php');
 	}
 
-	public static function getInstance()
+	public static function getInstance(): self
 	{
 		if (null === self::$instance) {
 			$c = __CLASS__;
@@ -19,7 +19,7 @@ class CommentManager
 		return self::$instance;
 	}
 
-	public function listComments()
+	public function listComments(): array
 	{
 		$db = DB::getInstance();
 		$rows = $db->select('SELECT * FROM `comment`');
@@ -27,7 +27,7 @@ class CommentManager
 		return $this->populateCommentsFromRows($rows);
 	}
 
-	public function listCommentsByNewsId($newsId)
+	public function listCommentsByNewsId($newsId): array
 	{
 		$db = DB::getInstance();
 		$rows = $db->select("SELECT * FROM `comment` WHERE `news_id` = {$newsId}");
@@ -35,7 +35,7 @@ class CommentManager
 		return $this->populateCommentsFromRows($rows);
 	}
 
-	private function populateCommentsFromRows($rows)
+	private function populateCommentsFromRows($rows): array
 	{
 		$comments = [];
 		foreach($rows as $row) {
@@ -49,7 +49,7 @@ class CommentManager
 		return $comments;
 	}
 
-	public function addCommentForNews($body, $newsId)
+	public function addCommentForNews($body, $newsId): int
 	{
 		$db = DB::getInstance();
 		$sql = "INSERT INTO `comment` (`body`, `created_at`, `news_id`) VALUES('". $body . "','" . date('Y-m-d') . "','" . $newsId . "')";
@@ -57,7 +57,7 @@ class CommentManager
 		return $db->lastInsertId();
 	}
 
-	public function deleteComment($id)
+	public function deleteComment($id): int|bool
 	{
 		$db = DB::getInstance();
 		$sql = "DELETE FROM `comment` WHERE `id`=" . $id;
