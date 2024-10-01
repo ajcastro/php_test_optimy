@@ -29,7 +29,7 @@ class CommentManager
 		return $this->populateCommentsFromRows($rows);
 	}
 
-	public function listCommentsByNewsId($newsId): array
+	public function listCommentsByNewsId(int $newsId): array
 	{
 		$db = DB::getInstance();
 		$rows = $db->select("SELECT * FROM `comment` WHERE `news_id` = {$newsId}");
@@ -37,7 +37,7 @@ class CommentManager
 		return $this->populateCommentsFromRows($rows);
 	}
 
-	private function populateCommentsFromRows($rows): array
+	private function populateCommentsFromRows(array $rows): array
 	{
 		$comments = [];
 		foreach($rows as $row) {
@@ -51,7 +51,7 @@ class CommentManager
 		return $comments;
 	}
 
-	public function addCommentForNews($body, $newsId): int
+	public function addCommentForNews(string $body, int $newsId): string|false
 	{
 		$db = DB::getInstance();
 		$sql = "INSERT INTO `comment` (`body`, `created_at`, `news_id`) VALUES('". $body . "','" . date('Y-m-d') . "','" . $newsId . "')";
@@ -59,7 +59,7 @@ class CommentManager
 		return $db->lastInsertId();
 	}
 
-	public function deleteComment($id): int|bool
+	public function deleteComment(int $id): int|bool
 	{
 		$db = DB::getInstance();
 		$sql = "DELETE FROM `comment` WHERE `id`=" . $id;

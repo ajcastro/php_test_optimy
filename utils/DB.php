@@ -26,18 +26,18 @@ class DB
 		return self::$instance;
 	}
 
-	public function select($sql): array
+	public function select(string $sql): array
 	{
 		$sth = $this->pdo->query($sql);
 		return $sth->fetchAll();
 	}
 
-	public function exec($sql): int|bool
+	public function exec(string $sql): int|bool
 	{
 		return $this->pdo->exec($sql);
 	}
 
-	public function lastInsertId(): int
+	public function lastInsertId(): string|false
 	{
 		return $this->pdo->lastInsertId();
 	}

@@ -45,7 +45,7 @@ class NewsManager
 	/**
 	* add a record in news table
 	*/
-	public function addNews($title, $body): int
+	public function addNews(string $title, string $body): string|false
 	{
 		$db = DB::getInstance();
 		$sql = "INSERT INTO `news` (`title`, `body`, `created_at`) VALUES('". $title . "','" . $body . "','" . date('Y-m-d') . "')";
@@ -57,7 +57,7 @@ class NewsManager
 	/**
 	* deletes a news, and also linked comments
 	*/
-	public function deleteNews($id): int|bool
+	public function deleteNews(int $id): int|bool
 	{
 		$comments = CommentManager::getInstance()->listCommentsByNewsId($id);
 
