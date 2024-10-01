@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 class News
 {
 	protected int $id;
