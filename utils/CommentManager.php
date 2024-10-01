@@ -24,6 +24,19 @@ class CommentManager
 		$db = DB::getInstance();
 		$rows = $db->select('SELECT * FROM `comment`');
 
+		return $this->populateCommentsFromRows($rows);
+	}
+
+	public function listCommentsByNewsId($newsId)
+	{
+		$db = DB::getInstance();
+		$rows = $db->select("SELECT * FROM `comment` WHERE `news_id` = {$newsId}");
+
+		return $this->populateCommentsFromRows($rows);
+	}
+
+	private function populateCommentsFromRows($rows)
+	{
 		$comments = [];
 		foreach($rows as $row) {
 			$n = new Comment();

@@ -56,13 +56,11 @@ class NewsManager
 	*/
 	public function deleteNews($id)
 	{
-		$comments = CommentManager::getInstance()->listComments();
+		$comments = CommentManager::getInstance()->listCommentsByNewsId($id);
 		$idsToDelete = [];
 
 		foreach ($comments as $comment) {
-			if ($comment->getNewsId() == $id) {
-				$idsToDelete[] = $comment->getId();
-			}
+			$idsToDelete[] = $comment->getId();
 		}
 
 		foreach($idsToDelete as $id) {
