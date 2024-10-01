@@ -54,7 +54,7 @@ class CommentManager
 		$db = DB::getInstance();
 		$sql = "INSERT INTO `comment` (`body`, `created_at`, `news_id`) VALUES('". $body . "','" . date('Y-m-d') . "','" . $newsId . "')";
 		$db->exec($sql);
-		return $db->lastInsertId($sql);
+		return $db->lastInsertId();
 	}
 
 	public function deleteComment($id)
